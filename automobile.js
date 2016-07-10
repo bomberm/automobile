@@ -106,3 +106,10 @@ The cars sorted by type are:
 
 As an example of the content in the parenthesis:
 1990 Ford F-150 */
+
+Automobile.prototype.logMe= function(validation){
+    var myString=this.year + ' ' + this.make + ' ' + this.model; //base string
+	if(validation) myString+=' '+ this.type; //if true boolean is passed, add type
+	
+	console.log(myString); //print 
+	}
