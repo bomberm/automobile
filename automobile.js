@@ -16,7 +16,19 @@ var automobiles = [
 
 /*This function sorts arrays using an arbitrary comparator. You pass it a comparator and an array of objects appropriate for that comparator and it will return a new array which is sorted with the largest object in index 0 and the smallest in the last index*/
 function sortArr( comparator, array ){
-    /*your code here*/
+    /*using a basic bubble sort algorithm for simplicity's sake*/
+	for(i=0; i<array.length-1; i++){
+	    for(j=i+1; j<array.length; j++){
+		    if(!(comparator(array[i], array[j])){ //comparitors will return false if a swap needs to occur
+			    var temp=array[i];
+				array[i]=array[j];
+				array[j]=temp;
+				}
+			}
+		}
+	}
+	
+	return array;
 }
 
 /*A comparator takes two arguments and uses some algorithm to compare them. If the first argument is larger or greater than the 2nd it returns true, otherwise it returns false. Here is an example that works on integers*/
@@ -31,18 +43,44 @@ function exComparator( int1, int2){
 /*For all comparators if cars are 'tied' according to the comparison rules then the order of those 'tied' cars is not specified and either can come first*/
 
 /*This compares two automobiles based on their year. Newer cars are "greater" than older cars.*/
-function yearComparator( auto1, auto2){
-    /* your code here*/
+function yearComparator(auto1, auto2){
+    if(auto1.year<=auto2.year) return true; //if auto1 has a year less than  (or matches year of) auto two, no swap needs occur
+	else return false;
 }
 
 /*This compares two automobiles based on their make. It should be case insensitive and makes which are alphabetically earlier in the alphabet are "greater" than ones that come later.*/
 function makeComparator( auto1, auto2){
-    /* your code here*/
+    if(auto1.make.tolowercase()<=auto2.make.tolowercase()) return true; //convert to lowercase for comparison to ensure case insensitivity
+	else return false;
 }
 
 /*This compares two automobiles based on their type. The ordering from "greatest" to "least" is as follows: roadster, pickup, suv, wagon, (types not otherwise listed). It should be case insensitive. If two cars are of equal type then the newest one by model year should be considered "greater".*/
 function typeComparator( auto1, auto2){
-    /* your code here*/
+    var getType=function(auto){
+	    switch(auto.type.tolowercase()){
+		    case "roadster":
+			    return 0;
+				break;
+			case "pickup":
+			    return 1;
+				break;
+			case "suv":
+			    return 2;
+				break;
+			case "wagon":
+			    return 3;
+				break;
+			default:
+			    return 4;
+				break;
+			}
+		};
+	var auto1type, auto2type; //will convert types to numbers, to aid in sorting.
+	auto1type=getType(auto1);
+	auto2type=getType(auto2);
+	if(autotype1<autotype2) return true; //if autotype1 is lower than autotype 2, return no need to sort
+	else if(autotype1==autotype2) return yearComparator(auto1, auto2) //if types are the same, return results of year compare
+	else return false; //time to switch
 }
 
 /*Your program should output the following to the console.log, including the opening and closing 5 stars. All values in parenthesis should be replaced with appropriate values. Each line is a seperate call to console.log.
