@@ -17,22 +17,21 @@ var automobiles = [
 /*This function sorts arrays using an arbitrary comparator. You pass it a comparator and an array of objects appropriate for that comparator and it will return a new array which is sorted with the largest object in index 0 and the smallest in the last index*/
 function sortArr( comparator, array ){
     /*using a basic bubble sort algorithm for simplicity's sake*/
-	for(i=0; i<array.length-1; i++){
-	    for(j=i+1; j<array.length; j++){
-		    if(!(comparator(array[i], array[j])){ //comparitors will return false if a swap needs to occur
+	for(var i=0; i<array.length-1; i++){
+	    for(var j=i+1; j<array.length; j++){
+		    if(!(comparator(array[i], array[j]))){ //comparitors will return false if a swap needs to occur
 			    var temp=array[i];
 				array[i]=array[j];
 				array[j]=temp;
 				}
 			}
 		}
-	}
 	
 	return array;
 }
 
 /*A comparator takes two arguments and uses some algorithm to compare them. If the first argument is larger or greater than the 2nd it returns true, otherwise it returns false. Here is an example that works on integers*/
-function exComparator( int1, int2){
+function exComparator(int1, int2){
     if (int1 > int2){
         return true;
     } else {
@@ -43,21 +42,21 @@ function exComparator( int1, int2){
 /*For all comparators if cars are 'tied' according to the comparison rules then the order of those 'tied' cars is not specified and either can come first*/
 
 /*This compares two automobiles based on their year. Newer cars are "greater" than older cars.*/
-function yearComparator(auto1, auto2){
+function yearComparator( auto1, auto2 ){
     if(auto1.year<=auto2.year) return true; //if auto1 has a year less than  (or matches year of) auto two, no swap needs occur
 	else return false;
 }
 
 /*This compares two automobiles based on their make. It should be case insensitive and makes which are alphabetically earlier in the alphabet are "greater" than ones that come later.*/
-function makeComparator( auto1, auto2){
-    if(auto1.make.tolowercase()<=auto2.make.tolowercase()) return true; //convert to lowercase for comparison to ensure case insensitivity
+function makeComparator(auto1, auto2){
+    if(auto1.make.toLowerCase()<=auto2.make.toLowerCase()) return true; //convert to lowercase for comparison to ensure case insensitivity
 	else return false;
 }
 
 /*This compares two automobiles based on their type. The ordering from "greatest" to "least" is as follows: roadster, pickup, suv, wagon, (types not otherwise listed). It should be case insensitive. If two cars are of equal type then the newest one by model year should be considered "greater".*/
-function typeComparator( auto1, auto2){
+function typeComparator(auto1, auto2){
     var getType=function(auto){
-	    switch(auto.type.tolowercase()){
+	    switch(auto.type.toLowerCase()){
 		    case "roadster":
 			    return 0;
 				break;
@@ -78,8 +77,8 @@ function typeComparator( auto1, auto2){
 	var auto1type, auto2type; //will convert types to numbers, to aid in sorting.
 	auto1type=getType(auto1);
 	auto2type=getType(auto2);
-	if(autotype1<autotype2) return true; //if autotype1 is lower than autotype 2, return no need to sort
-	else if(autotype1==autotype2) return yearComparator(auto1, auto2) //if types are the same, return results of year compare
+	if(auto1type<auto2type) return true; //if autotype1 is lower than autotype 2, return no need to sort
+	else if(auto1type==auto2type) return yearComparator(auto1, auto2) //if types are the same, return results of year compare
 	else return false; //time to switch
 }
 
@@ -107,9 +106,20 @@ The cars sorted by type are:
 As an example of the content in the parenthesis:
 1990 Ford F-150 */
 
-Automobile.prototype.logMe= function(validation){
+Automobile.prototype.logMe=function(validation){
     var myString=this.year + ' ' + this.make + ' ' + this.model; //base string
 	if(validation) myString+=' '+ this.type; //if true boolean is passed, add type
-	
-	console.log(myString); //print 
+	console.log(myString); //print the string
 	}
+
+console.log("The cars sorted by year are:");
+var yearSort=sortArr(yearComparator, automobiles);
+for(var i=0; i<yearSort.length; i++) yearSort[i].logMe(false); //forEach was buggy for me. This will be fixed (I hope)
+	
+console.log("The cars sorted by make are:");
+var makeSort=sortArr(makeComparator, automobiles);
+for(var i=0; i<makeSort.length; i++) makeSort[i].logMe(false);
+	
+console.log("The cars sorted by type are:");
+var typeSort=sortArr(typeComparator, automobiles);
+for(var i=0; i<typeSort.length; i++) typeSort[i].logMe(true);
